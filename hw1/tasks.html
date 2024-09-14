@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1: Tasks for sd545</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for sd545</h1>
+
+<p>Your personal task is to develop a system for depots and their buses.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Classes [13 marks]</h2>
+
+<p>Create class <code>co2103.hw1.domain.Bus</code>. With the following private fields:
+<ol>
+  <li><code>String manufacturer</code></li>
+  <li><code>String driver</code></li>
+  <li><code>String city</code></li>
+  <li><code>int route</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create class <code>co2103.hw1.domain.Depot</code>. With the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String location</code></li>
+  <li><code>String owner</code></li>
+  <li><code>List&lt;Bus&gt; buses</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2103.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Depot&gt; depots</code> in class <code>co2103.hw1.Hw1Application</code>. Initialize the list inside class <code>co2103.hw1.Hw1Application</code> to contain one depot with two buses. [4 marks]</p>
+
+<p>Create controller <code>co2103.hw1.controller.DepotController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/depots"</code> should show view <code>depots/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all depots from <code>co2103.hw1.Hw1Application</code> to the model as attribute <code>depots</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the location and owner of each depot followed by a link to URL <code>"/buses?depot={id of depot}"</code>, e.g., <code>"/buses?depot=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newDepot"</code> should show view <code>depots/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="depot"</code> and <code>action="/addDepot"</code> and inputs for all fields of class <code>Depot</code> except for <code>buses</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addDepot"</code> should add a new depot to the list of all depots in <code>co2103.hw1.Hw1Application</code> and redirect to <code>/depots</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller <code>co2103.hw1.controller.BusController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/buses"</code> should show view <code>buses/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>depot</code> determine the corresponding depot from <code>co2103.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all buses of that depot to the model as attribute <code>buses</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the manufacturer, driver, city, and route of each bus. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newBus?depot={id of depot whose buses are listed}"</code>, e.g., <code>"/newBus?depot=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newBus"</code> should show view <code>buses/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="bus"</code> and <code>action="/addBus"</code> and inputs for all fields of class <code>Bus</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>depot</code> with the ID of the current depot. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addBus"</code> should add a new bus to the list of buses of the depot identified by request parameter <code>depot</code> and then redirect to <code>/depots</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Depot</code> and make it available in controller <code>DepotController</code>. [4 marks]</p>
+<p>When adding a new depot validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.depots</code>. [3 marks]</li>
+    <li>The value of field <code>location</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>owner</code> is not empty. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Bus</code> and make it available in controller <code>BusController</code>. [4 marks]</p>
+<p>When adding a new bus validate that
+  <ol>
+    <li>The value of field <code>manufacturer</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>driver</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>city</code> is either <code>"Leicester"</code>, <code>"Birmingham"</code>, or <code>"Nottingham"</code>. [3 marks]</li>
+    <li>The value of field <code>route</code> is between (including) 1 and 250. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
